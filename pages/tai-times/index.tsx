@@ -7,7 +7,7 @@ export default function TaiTime() {
         <title>Tai Time</title>
         <meta name="description" content="" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/tai-time-favicon.ico" />
       </Head>
       <main className="bg-gray-100 min-h-screen">
         <div className="container mx-auto px-4 py-8">
