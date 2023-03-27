@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { getFirstValidWeekdayOfPreviousMonth } from "../../../helpers/dates/dateUtils";
+import { getFirstValidWeekdayOfPreviousMonth, getValidEndWeekdayOfCurrentWeek } from "../../../helpers/dates/dateUtils";
 
 describe("getFirstValidWeekdayOfPreviousMonth", () => {
   test("should return 2023-01-02 Monday. First of previous month is a Sunday", () => {
@@ -27,3 +27,18 @@ describe("getFirstValidWeekdayOfPreviousMonth", () => {
     expect(firstWeekdayOfPreviousMonth.format("YYYY-MM-DD")).toBe("2020-02-03");
   });
 });
+
+describe('getValidEndWeekdayOfCurrentWeek', () => {
+  test('should return 2023-06-30 Friday. End of current week is a Friday', () => {
+    const validEndWeekdayOfCurrentWeek = getValidEndWeekdayOfCurrentWeek(dayjs('2023-06-30'));
+    expect(validEndWeekdayOfCurrentWeek.format('YYYY-MM-DD')).toBe('2023-06-30');
+  });
+  test('should return 2023-03-03 Friday. End of current week is a Wednesday', () => {
+    const validEndWeekdayOfCurrentWeek = getValidEndWeekdayOfCurrentWeek(dayjs('2023-03-01'));
+    expect(validEndWeekdayOfCurrentWeek.format('YYYY-MM-DD')).toBe('2023-03-03');
+  });
+  test('should handle leap years correctly', () => {
+    const validEndWeekdayOfCurrentWeek = getValidEndWeekdayOfCurrentWeek(dayjs('2020-03-01'));
+    expect(validEndWeekdayOfCurrentWeek.format('YYYY-MM-DD')).toBe('2020-03-06');
+  });
+})

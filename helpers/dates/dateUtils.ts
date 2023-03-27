@@ -30,8 +30,8 @@ dayjs.extend(weekday);
 export function getFirstValidWeekdayOfPreviousMonth(
   date: Dayjs | number | Date
 ): dayjs.Dayjs {
-  const today = dayjs(date);
-  const firstDayOfPreviousMonth = today.subtract(1, "month").startOf("month");
+  const currentDate = dayjs(date);
+  const firstDayOfPreviousMonth = currentDate.subtract(1, "month").startOf("month");
   const firstDayOfPreviousMonthWeekday = firstDayOfPreviousMonth.weekday();
 
   if (firstDayOfPreviousMonthWeekday === 0) {
@@ -46,4 +46,48 @@ export function getFirstValidWeekdayOfPreviousMonth(
 
   // Otherwise, return the first day of the previous month
   return firstDayOfPreviousMonth;
+}
+
+/**
+ *  Returns the last valid weekday of the current week.
+ * If the end day of the current week is a Sunday, return the previous Friday.
+ * If the end day of the current week is a Saturday, return the previous endOfMonth.
+ * Otherwise, return the endOfMonth.
+ * @param date The date to get the last valid weekday of the current week for.
+ * @returns The last valid weekday of the current week.
+ * @example
+ * getValidEndWeekdayOfCurrentWeek(dayjs("2023-02-01"));
+ * // Returns dayjs("2023-02-03")
+ * @example
+ * getValidEndWeekdayOfCurrentWeek(dayjs("2022-11-14"));
+ * // Returns dayjs("2022-11-18")
+ * @example
+ * getValidEndWeekdayOfCurrentWeek(dayjs("2023-06-30"));
+ * // Returns dayjs("2023-06-30")
+ */
+export function getValidEndWeekdayOfCurrentWeek(date: Dayjs | number | Date) {
+  const currentDate = dayjs(date);
+
+  // get friday of the week
+  const friday = currentDate.weekday(5);
+
+  // get end of month
+  const endOfMonth = currentDate.endOf("month");
+
+  if (!friday.isAfter(endOfMonth)) {
+    return friday;
+  }
+
+  // If the end day of the current week is a Sunday, return the previous Friday
+  if (endOfMonth.weekday() === 0) {
+    return endOfMonth.subtract(2, 'day');
+  }
+
+  // If the end day of the current week is a Saturday, return the previous endOfMonth
+  if (endOfMonth.weekday() === 6) {
+    return endOfMonth.subtract(1, 'day');
+  }
+
+  return endOfMonth;
+
 }
