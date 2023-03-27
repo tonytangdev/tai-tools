@@ -1,5 +1,3 @@
-import React from "react";
-
 type Props = {
   day: string;
   hours: number;
