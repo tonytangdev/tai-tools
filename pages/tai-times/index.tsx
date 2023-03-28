@@ -39,7 +39,7 @@ export default function TaiTime() {
             </div>
 
             <div className="grid grid-cols-1 gap-4">
-              {Object.entries(state.days).map(([day, val], index) => (
+              {Object.entries(state.days).map(([day, val], _index) => (
                 <WorkPlaceCard
                   key={day}
                   day={dayjs(day).format("dddd")}
