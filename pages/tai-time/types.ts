@@ -19,6 +19,7 @@ export type StateType = {
 export const ACTIONS = {
     SET_START_DATE: "SET_START_DATE",
     SET_END_DATE: "SET_END_DATE",
+    SET_PROJECT: "SET_PROJECT",
 } as const
 
 export type ActionType<K extends keyof PayloadTypes> = {
@@ -28,9 +29,15 @@ export type ActionType<K extends keyof PayloadTypes> = {
 
 export type SetDatePayloadType = string;
 
+export type SetProjectPayloadType = {
+    day: string;
+    project: string;
+}
+
 export type PayloadTypes = {
     [ACTIONS.SET_START_DATE]: SetDatePayloadType;
     [ACTIONS.SET_END_DATE]: SetDatePayloadType;
+    [ACTIONS.SET_PROJECT]: SetProjectPayloadType;
 }
 
 export type FormReducer = Reducer<StateType, ActionType<keyof PayloadTypes>>

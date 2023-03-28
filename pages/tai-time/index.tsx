@@ -58,16 +58,14 @@ export default function TaiTime() {
                   hours={val.hours}
                   minutes={val.minutes}
                   place={val.project}
+                  onPlaceChange={(e) =>
+                    dispatch({
+                      type: "SET_PROJECT",
+                      payload: { day, project: e.target.value },
+                    })
+                  }
                 />
               ))}
-              <div className="mt-6">
-                <button
-                  className="bg-green-500 text-white px-4 py-2 rounded shadow hover:bg-green-600"
-                  onClick="addNewProject()"
-                >
-                  Ajouter un chantier
-                </button>
-              </div>
 
               <div id="newProjectSection" className="hidden mt-6">
                 <h2 className="text-xl font-semibold mb-4">Nouveau chantier</h2>

@@ -3,9 +3,17 @@ type Props = {
   hours: number;
   minutes: number;
   place: string;
+
+  onPlaceChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-const WorkPlaceCard = ({ day, hours = 8, minutes = 0, place = "" }: Props) => {
+const WorkPlaceCard = ({
+  day,
+  hours = 8,
+  minutes = 0,
+  place = "",
+  onPlaceChange,
+}: Props) => {
   return (
     <div className="bg-gray-100 p-4 rounded shadow">
       <h3 className="text-lg font-semibold mb-2">{day.toUpperCase()}</h3>
@@ -17,6 +25,7 @@ const WorkPlaceCard = ({ day, hours = 8, minutes = 0, place = "" }: Props) => {
           type="text"
           placeholder="Nom du chantier"
           value={place}
+          onChange={onPlaceChange}
         />
       </div>
 

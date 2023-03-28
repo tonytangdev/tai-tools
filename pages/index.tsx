@@ -29,7 +29,7 @@ export default function Home() {
             <AppItem
               title={"Tai Time"}
               description={"Suivi du temps de travail dans la semaine"}
-              href={"/tai-times"}
+              href={"/tai-time"}
               image={"/images/tai-time-icon.png"}
               alt={"clock logo"}
             />

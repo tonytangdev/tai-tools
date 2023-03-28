@@ -7,9 +7,23 @@ import { ACTIONS, DaysType, FormReducer, StateType } from "./types";
 export const formReducer: FormReducer = (state, action) => {
     switch (action.type) {
         case ACTIONS.SET_START_DATE:
-            return computePeriod(action.payload);
+            const startDate = action.payload as string;
+            return computePeriod(startDate);
         case ACTIONS.SET_END_DATE:
-            return computePeriod(state.start, action.payload);
+            const endDate = action.payload as string;
+            return computePeriod(state.start, endDate);
+        case ACTIONS.SET_PROJECT:
+            const projectDetails = action.payload as { day: string; project: string };
+            return {
+                ...state,
+                days: {
+                    ...state.days,
+                    [projectDetails.day]: {
+                        ...state.days[projectDetails.day],
+                        project: projectDetails.project,
+                    }
+                }
+            };
         default:
             return state;
     };
@@ -34,17 +48,17 @@ export const defaultState = (): StateType => {
  * //     days: {
  * //         "2023-02-01": {
  * //             project: "",
- * //             hours: 0,
+ * //             hours: 8,
  * //             minutes: 0,
  * //         },
  * //         "2023-02-02": {
  * //             project: "",
- * //             hours: 0,
+ * //             hours: 8,
  * //             minutes: 0,
  * //         },
  * //         "2023-02-03": {
  * //             project: "",
- * //             hours: 0,
+ * //             hours: 8,
  * //             minutes: 0,
  * //         },
  * //     }
@@ -57,22 +71,22 @@ export const defaultState = (): StateType => {
  * //     days: {
  * //         "2023-02-01": {
  * //             project: "",
- * //             hours: 0,
+ * //             hours: 8,
  * //             minutes: 0,
  * //         },
  * //         "2023-02-02": {
  * //             project: "",
- * //             hours: 0,
+ * //             hours: 8,
  * //             minutes: 0,
  * //         },
  * //         "2023-02-03": {
  * //             project: "",
- * //             hours: 0,
+ * //             hours: 8,
  * //             minutes: 0,
  * //         },
  * //         "2023-02-04": {
  * //             project: "",
- * //             hours: 0,
+ * //             hours: 8,
  * //             minutes: 0,
  * //         },
  * //     }
@@ -88,7 +102,7 @@ export const computePeriod = (start: dayjs.Dayjs | number | string, end?: dayjs.
     while (currentDate.isBefore(endDate) || currentDate.isSame(endDate)) {
         days[currentDate.format("YYYY-MM-DD")] = {
             project: "",
-            hours: 0,
+            hours: 8,
             minutes: 0,
         };
         currentDate = currentDate.add(1, "day");

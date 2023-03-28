@@ -34,8 +34,6 @@ export function getFirstValidWeekdayOfPreviousMonth(
   const firstDayOfPreviousMonth = currentDate.subtract(1, "month").startOf("month");
   const firstDayOfPreviousMonthWeekday = firstDayOfPreviousMonth.weekday();
 
-  console.log({ firstDayOfPreviousMonthWeekday });
-
   if (firstDayOfPreviousMonthWeekday === 6) {
     // If the first day of the previous month is a Sunday, return the Monday
     return firstDayOfPreviousMonth.add(1, 'day');
@@ -72,8 +70,6 @@ export function getValidEndWeekdayOfCurrentWeek(date: string | Dayjs | number | 
 
   // get friday of the week
   const friday = currentDate.weekday(4);
-
-  console.log("friday", friday.format("YYYY-MM-DD"));
 
   // get end of month
   const endOfMonth = currentDate.endOf("month");
