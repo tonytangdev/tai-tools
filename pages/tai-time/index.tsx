@@ -1,13 +1,51 @@
 import WorkPlaceCard from "@/components/WorkPlaceCard";
 import dayjs from "dayjs";
 import Head from "next/head";
-import { useReducer } from "react";
+import { useReducer, useState } from "react";
 import { ACTIONS } from "../../types";
-import { computeTotalHours, defaultState, formReducer } from "../../helpers/taiTimesUtils";
+import {
+  computeTotalHours,
+  defaultState,
+  formatStateToSend,
+  formReducer,
+} from "../../helpers/taiTimesUtils";
+
+const LAMBDA_URL =
+  "https://zqabvhac9i.execute-api.eu-west-1.amazonaws.com/default/generateTimesheet-dev";
 
 export default function TaiTime() {
+  const [isLoading, setIsLoading] = useState(false);
+
   const [state, dispatch] = useReducer(formReducer, defaultState());
   const { hours, minutes } = computeTotalHours(state.days);
+
+  const onSubmit = async () => {
+    setIsLoading(true);
+    const formattedData = formatStateToSend(state);
+
+    const res = await fetch(LAMBDA_URL, {
+      method: "POST",
+      headers: {
+        Accept: "application/pdf",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formattedData),
+    });
+
+    setIsLoading(false);
+
+    if (res.ok) {
+      const json = await res.json();
+      const body = JSON.parse(json.body);
+      const { url } = body;
+
+      // open the pdf in a new tab
+      window.open(url, "_blank");
+    } else {
+      alert("Une erreur s'est produite");
+    }
+  };
+
   return (
     <>
       <Head>
@@ -106,8 +144,12 @@ export default function TaiTime() {
               </div>
 
               <div className="mt-6 flex justify-end">
-                <button className="bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600">
-                  Soumettre
+                <button
+                  disabled={isLoading}
+                  onClick={onSubmit}
+                  className={`bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600 disabled:opacity-50`}
+                >
+                  {isLoading ? <>Chargement...</> : <>Soumettre</>}
                 </button>
               </div>
             </div>

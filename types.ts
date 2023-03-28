@@ -55,3 +55,12 @@ export type PayloadTypes = {
 }
 
 export type FormReducer = Reducer<StateType, ActionType<keyof PayloadTypes>>
+
+export type WeekType = {
+    [key: string]: {
+        index: number;
+        date: string;
+        work: string;
+        duration: string
+    }
+}

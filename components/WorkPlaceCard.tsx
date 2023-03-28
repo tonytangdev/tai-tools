@@ -42,7 +42,7 @@ const WorkPlaceCard = ({
             type="number"
             min="0"
             placeholder="0"
-            value={hours || 0}
+            value={String(hours)}
             onChange={onHoursChange}
           />
         </div>
@@ -54,7 +54,7 @@ const WorkPlaceCard = ({
             min="0"
             max="59"
             placeholder="0"
-            value={minutes || 0}
+            value={String(minutes)}
             onChange={onMinutesChange}
           />
         </div>
