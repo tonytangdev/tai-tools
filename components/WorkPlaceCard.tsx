@@ -2,9 +2,10 @@ type Props = {
   day: string;
   hours: number;
   minutes: number;
+  place: string;
 };
 
-const WorkPlaceCard = ({ day, hours = 8, minutes = 0 }: Props) => {
+const WorkPlaceCard = ({ day, hours = 8, minutes = 0, place = "" }: Props) => {
   return (
     <div className="bg-gray-100 p-4 rounded shadow">
       <h3 className="text-lg font-semibold mb-2">{day}</h3>
@@ -15,6 +16,7 @@ const WorkPlaceCard = ({ day, hours = 8, minutes = 0 }: Props) => {
           className="w-full mt-1 p-2 border rounded"
           type="text"
           placeholder="Nom du chantier"
+          value={place}
         />
       </div>
 

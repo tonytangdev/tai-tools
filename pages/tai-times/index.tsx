@@ -1,7 +1,11 @@
 import WorkPlaceCard from "@/components/WorkPlaceCard";
+import dayjs from "dayjs";
 import Head from "next/head";
+import { useReducer } from "react";
+import { defaultState, formReducer } from "./utils";
 
 export default function TaiTime() {
+  const [state, dispatch] = useReducer(formReducer, defaultState());
   return (
     <>
       <Head>
@@ -18,16 +22,32 @@ export default function TaiTime() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
               <div>
                 <label className="block text-gray-700">Semaine du:</label>
-                <input className="w-full mt-1 p-2 border rounded" type="date" />
+                <input
+                  className="w-full mt-1 p-2 border rounded"
+                  type="date"
+                  value={state.start}
+                />
               </div>
               <div>
                 <label className="block text-gray-700">Au:</label>
-                <input className="w-full mt-1 p-2 border rounded" type="date" />
+                <input
+                  className="w-full mt-1 p-2 border rounded"
+                  type="date"
+                  value={state.end}
+                />
               </div>
             </div>
 
             <div className="grid grid-cols-1 gap-4">
-              <WorkPlaceCard />
+              {Object.entries(state.days).map(([day, val], index) => (
+                <WorkPlaceCard
+                  key={day}
+                  day={dayjs(day).format("dddd")}
+                  hours={val.hours}
+                  minutes={val.minutes}
+                  place={val.project}
+                />
+              ))}
               <div className="mt-6">
                 <button
                   className="bg-green-500 text-white px-4 py-2 rounded shadow hover:bg-green-600"
