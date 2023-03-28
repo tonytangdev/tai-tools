@@ -3,10 +3,11 @@ import dayjs from "dayjs";
 import Head from "next/head";
 import { useReducer } from "react";
 import { ACTIONS } from "./types";
-import { defaultState, formReducer } from "./utils";
+import { computeTotalHours, defaultState, formReducer } from "./utils";
 
 export default function TaiTime() {
   const [state, dispatch] = useReducer(formReducer, defaultState());
+  const { hours, minutes } = computeTotalHours(state.days);
   return (
     <>
       <Head>
@@ -99,7 +100,9 @@ export default function TaiTime() {
                 <h2 className="text-xl font-semibold mb-4">
                   Total des heures travaillées
                 </h2>
-                <p className="text-lg font-medium">XX heures YY minutes</p>
+                <p className="text-lg font-medium">
+                  {hours} heures {minutes} minutes
+                </p>
               </div>
 
               <div className="mt-6 flex justify-end">

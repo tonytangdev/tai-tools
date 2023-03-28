@@ -140,3 +140,18 @@ export const computePeriod = (start: dayjs.Dayjs | number | string, end?: dayjs.
         days: days,
     };
 }
+
+export function computeTotalHours(days: DaysType) {
+    let totalHours = 0;
+    let totalMinutes = 0;
+    for (const day in days) {
+        totalHours += days[day].hours || 0;
+        totalMinutes += days[day].minutes || 0;
+    }
+    totalHours += Math.floor(totalMinutes / 60);
+    totalMinutes = totalMinutes % 60;
+    return {
+        hours: totalHours,
+        minutes: totalMinutes,
+    };
+}
