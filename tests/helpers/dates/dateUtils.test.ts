@@ -1,4 +1,7 @@
 import dayjs from "dayjs";
+require('dayjs/locale/fr')
+
+dayjs.locale('fr')
 import { getFirstValidWeekdayOfPreviousMonth, getValidEndWeekdayOfCurrentWeek } from "../../../helpers/dates/dateUtils";
 
 describe("getFirstValidWeekdayOfPreviousMonth", () => {
@@ -37,8 +40,12 @@ describe('getValidEndWeekdayOfCurrentWeek', () => {
     const validEndWeekdayOfCurrentWeek = getValidEndWeekdayOfCurrentWeek(dayjs('2023-03-01'));
     expect(validEndWeekdayOfCurrentWeek.format('YYYY-MM-DD')).toBe('2023-03-03');
   });
+  test('should return 2023-02-03 Friday. End of current week is a Friday', () => {
+    const validEndWeekdayOfCurrentWeek = getValidEndWeekdayOfCurrentWeek('2023-02-01');
+    expect(validEndWeekdayOfCurrentWeek.format('YYYY-MM-DD')).toBe('2023-02-03');
+  });
   test('should handle leap years correctly', () => {
-    const validEndWeekdayOfCurrentWeek = getValidEndWeekdayOfCurrentWeek(dayjs('2020-03-01'));
+    const validEndWeekdayOfCurrentWeek = getValidEndWeekdayOfCurrentWeek(dayjs('2020-03-02'));
     expect(validEndWeekdayOfCurrentWeek.format('YYYY-MM-DD')).toBe('2020-03-06');
   });
 })

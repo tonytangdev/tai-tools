@@ -8,7 +8,7 @@ type Props = {
 const WorkPlaceCard = ({ day, hours = 8, minutes = 0, place = "" }: Props) => {
   return (
     <div className="bg-gray-100 p-4 rounded shadow">
-      <h3 className="text-lg font-semibold mb-2">{day}</h3>
+      <h3 className="text-lg font-semibold mb-2">{day.toUpperCase()}</h3>
 
       <div className="mb-3">
         <label className="block text-gray-700">Chantier:</label>

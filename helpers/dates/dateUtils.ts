@@ -28,18 +28,20 @@ dayjs.extend(weekday);
  * 
  */
 export function getFirstValidWeekdayOfPreviousMonth(
-  date: Dayjs | number | Date
+  date: string | Dayjs | number | Date
 ): dayjs.Dayjs {
   const currentDate = dayjs(date);
   const firstDayOfPreviousMonth = currentDate.subtract(1, "month").startOf("month");
   const firstDayOfPreviousMonthWeekday = firstDayOfPreviousMonth.weekday();
 
-  if (firstDayOfPreviousMonthWeekday === 0) {
+  console.log({ firstDayOfPreviousMonthWeekday });
+
+  if (firstDayOfPreviousMonthWeekday === 6) {
     // If the first day of the previous month is a Sunday, return the Monday
     return firstDayOfPreviousMonth.add(1, 'day');
   }
 
-  if (firstDayOfPreviousMonthWeekday === 6) {
+  if (firstDayOfPreviousMonthWeekday === 5) {
     // If the first day of the previous month is a Saturday, return the Monday
     return firstDayOfPreviousMonth.add(2, 'day');
   }
@@ -65,11 +67,13 @@ export function getFirstValidWeekdayOfPreviousMonth(
  * getValidEndWeekdayOfCurrentWeek(dayjs("2023-06-30"));
  * // Returns dayjs("2023-06-30")
  */
-export function getValidEndWeekdayOfCurrentWeek(date: Dayjs | number | Date) {
+export function getValidEndWeekdayOfCurrentWeek(date: string | Dayjs | number | Date) {
   const currentDate = dayjs(date);
 
   // get friday of the week
-  const friday = currentDate.weekday(5);
+  const friday = currentDate.weekday(4);
+
+  console.log("friday", friday.format("YYYY-MM-DD"));
 
   // get end of month
   const endOfMonth = currentDate.endOf("month");

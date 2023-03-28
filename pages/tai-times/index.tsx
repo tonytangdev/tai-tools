@@ -26,6 +26,12 @@ export default function TaiTime() {
                   className="w-full mt-1 p-2 border rounded"
                   type="date"
                   value={state.start}
+                  onChange={(e) =>
+                    dispatch({
+                      type: "SET_START_DATE",
+                      payload: e.target.value,
+                    })
+                  }
                 />
               </div>
               <div>
@@ -42,7 +48,7 @@ export default function TaiTime() {
               {Object.entries(state.days).map(([day, val], _index) => (
                 <WorkPlaceCard
                   key={day}
-                  day={dayjs(day).format("dddd")}
+                  day={dayjs(day).format("dddd DD MMMM")}
                   hours={val.hours}
                   minutes={val.minutes}
                   place={val.project}
