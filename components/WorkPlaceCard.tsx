@@ -5,6 +5,8 @@ type Props = {
   place: string;
 
   onPlaceChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onHoursChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onMinutesChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 const WorkPlaceCard = ({
@@ -12,7 +14,10 @@ const WorkPlaceCard = ({
   hours = 8,
   minutes = 0,
   place = "",
+
   onPlaceChange,
+  onHoursChange,
+  onMinutesChange,
 }: Props) => {
   return (
     <div className="bg-gray-100 p-4 rounded shadow">
@@ -38,6 +43,7 @@ const WorkPlaceCard = ({
             min="0"
             placeholder="0"
             value={hours}
+            onChange={onHoursChange}
           />
         </div>
         <div>
@@ -49,6 +55,7 @@ const WorkPlaceCard = ({
             max="59"
             placeholder="0"
             value={minutes}
+            onChange={onMinutesChange}
           />
         </div>
       </div>

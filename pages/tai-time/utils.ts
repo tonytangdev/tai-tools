@@ -1,6 +1,6 @@
 import { getFirstValidWeekdayOfPreviousMonth, getValidEndWeekdayOfCurrentWeek } from "@/helpers/dates/dateUtils";
 import dayjs from "dayjs";
-import { ACTIONS, DaysType, FormReducer, StateType } from "./types";
+import { ACTIONS, DaysType, FormReducer, SetHoursPayloadType, SetMinutesPayloadType, SetProjectPayloadType, StateType } from "./types";
 
 
 // reducer
@@ -13,7 +13,7 @@ export const formReducer: FormReducer = (state, action) => {
             const endDate = action.payload as string;
             return computePeriod(state.start, endDate);
         case ACTIONS.SET_PROJECT:
-            const projectDetails = action.payload as { day: string; project: string };
+            const projectDetails = action.payload as SetProjectPayloadType;
             return {
                 ...state,
                 days: {
@@ -21,6 +21,32 @@ export const formReducer: FormReducer = (state, action) => {
                     [projectDetails.day]: {
                         ...state.days[projectDetails.day],
                         project: projectDetails.project,
+                    }
+                }
+            };
+        case ACTIONS.SET_HOURS:
+            const hoursDetails = action.payload as SetHoursPayloadType;
+            const hours = parseInt(hoursDetails.hours);
+            return {
+                ...state,
+                days: {
+                    ...state.days,
+                    [hoursDetails.day]: {
+                        ...state.days[hoursDetails.day],
+                        hours: hours,
+                    }
+                }
+            };
+        case ACTIONS.SET_MINUTES:
+            const minutesDetails = action.payload as SetMinutesPayloadType;
+            const minutes = parseInt(minutesDetails.minutes);
+            return {
+                ...state,
+                days: {
+                    ...state.days,
+                    [minutesDetails.day]: {
+                        ...state.days[minutesDetails.day],
+                        minutes: minutes,
                     }
                 }
             };

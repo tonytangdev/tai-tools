@@ -2,6 +2,7 @@ import WorkPlaceCard from "@/components/WorkPlaceCard";
 import dayjs from "dayjs";
 import Head from "next/head";
 import { useReducer } from "react";
+import { ACTIONS } from "./types";
 import { defaultState, formReducer } from "./utils";
 
 export default function TaiTime() {
@@ -28,7 +29,7 @@ export default function TaiTime() {
                   value={state.start}
                   onChange={(e) =>
                     dispatch({
-                      type: "SET_START_DATE",
+                      type: ACTIONS.SET_START_DATE,
                       payload: e.target.value,
                     })
                   }
@@ -42,7 +43,7 @@ export default function TaiTime() {
                   value={state.end}
                   onChange={(e) =>
                     dispatch({
-                      type: "SET_END_DATE",
+                      type: ACTIONS.SET_END_DATE,
                       payload: e.target.value,
                     })
                   }
@@ -60,8 +61,20 @@ export default function TaiTime() {
                   place={val.project}
                   onPlaceChange={(e) =>
                     dispatch({
-                      type: "SET_PROJECT",
+                      type: ACTIONS.SET_PROJECT,
                       payload: { day, project: e.target.value },
+                    })
+                  }
+                  onHoursChange={(e) =>
+                    dispatch({
+                      type: ACTIONS.SET_HOURS,
+                      payload: { day, hours: e.target.value },
+                    })
+                  }
+                  onMinutesChange={(e) =>
+                    dispatch({
+                      type: ACTIONS.SET_MINUTES,
+                      payload: { day, minutes: e.target.value },
                     })
                   }
                 />
