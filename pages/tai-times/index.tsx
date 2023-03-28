@@ -40,6 +40,12 @@ export default function TaiTime() {
                   className="w-full mt-1 p-2 border rounded"
                   type="date"
                   value={state.end}
+                  onChange={(e) =>
+                    dispatch({
+                      type: "SET_END_DATE",
+                      payload: e.target.value,
+                    })
+                  }
                 />
               </div>
             </div>
