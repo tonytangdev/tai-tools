@@ -37,7 +37,10 @@ export default function TaiTime() {
     if (res.ok) {
       const json = await res.json();
       const body = JSON.parse(json.body);
-      console.log({ body });
+      const { url } = body;
+
+      // open the pdf in a new tab
+      window.open(url, "_blank");
     } else {
       alert("Une erreur s'est produite");
     }

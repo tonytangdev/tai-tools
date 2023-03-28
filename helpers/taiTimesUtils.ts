@@ -1,4 +1,4 @@
-import { getFirstValidWeekdayOfPreviousMonth, getValidEndWeekdayOfCurrentWeek } from "@/helpers/dates/dateUtils";
+import { formatMinutes, getFirstValidWeekdayOfPreviousMonth, getValidEndWeekdayOfCurrentWeek } from "@/helpers/dates/dateUtils";
 import dayjs from "dayjs";
 import { ACTIONS, DaysType, FormReducer, SetHoursPayloadType, SetMinutesPayloadType, SetProjectPayloadType, StateType, WeekType } from "../types";
 
@@ -160,23 +160,27 @@ export function formatStateToSend(state: StateType) {
     const startingDate = dayjs(state.start).format("DD/MM");
     const endingDate = dayjs(state.end).format("DD/MM/YYYY");
     const totalDuration = computeTotalHours(state.days);
+    const totalMinutes = formatMinutes(totalDuration.minutes);
     const week = Object.keys(state.days).reduce((acc, day) => {
         const dayIndex = dayjs(day).weekday();
         const dayDate = dayjs(day).format("DD/MM");
         const dayWork = state.days[day].project;
         const dayHours = state.days[day].hours;
         const dayMinutes = state.days[day].minutes;
+        // format minutes
+        const minutes = formatMinutes(dayMinutes);
+
         acc[dayIndex] = {
             index: dayIndex,
             date: dayDate,
             work: dayWork,
-            duration: `${dayHours}H${dayMinutes}`,
+            duration: `${dayHours}H${minutes}`,
         };
         return acc;
     }, {} as WeekType);
     return {
         startingDate: startingDate,
         endingDate: endingDate,
-        week: { totalDuration: `${totalDuration.hours}H${totalDuration.minutes}`, ...week },
+        week: { totalDuration: `${totalDuration.hours}H${totalMinutes}`, ...week },
     };
 }

@@ -91,3 +91,7 @@ export function getValidEndWeekdayOfCurrentWeek(date: string | Dayjs | number | 
   return endOfMonth;
 
 }
+
+export function formatMinutes(minutes: number) {
+  return minutes < 10 ? `0${minutes}` : minutes;
+}
