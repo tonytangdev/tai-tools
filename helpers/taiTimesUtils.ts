@@ -1,6 +1,6 @@
 import { getFirstValidWeekdayOfPreviousMonth, getValidEndWeekdayOfCurrentWeek } from "@/helpers/dates/dateUtils";
 import dayjs from "dayjs";
-import { ACTIONS, DaysType, FormReducer, SetHoursPayloadType, SetMinutesPayloadType, SetProjectPayloadType, StateType } from "./types";
+import { ACTIONS, DaysType, FormReducer, SetHoursPayloadType, SetMinutesPayloadType, SetProjectPayloadType, StateType } from "../types";
 
 
 // reducer

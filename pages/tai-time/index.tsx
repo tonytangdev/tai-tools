@@ -2,8 +2,8 @@ import WorkPlaceCard from "@/components/WorkPlaceCard";
 import dayjs from "dayjs";
 import Head from "next/head";
 import { useReducer } from "react";
-import { ACTIONS } from "./types";
-import { computeTotalHours, defaultState, formReducer } from "./utils";
+import { ACTIONS } from "../../types";
+import { computeTotalHours, defaultState, formReducer } from "../../helpers/taiTimesUtils";
 
 export default function TaiTime() {
   const [state, dispatch] = useReducer(formReducer, defaultState());
