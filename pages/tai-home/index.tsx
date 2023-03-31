@@ -59,9 +59,9 @@ const HousingForm: React.FC = () => {
             <main className="bg-gray-100 min-h-screen">
                 <div className="container mx-auto px-4 py-8">
                     <h1 className="text-3xl font-bold mb-6 text-center">Tai Home</h1>
-                    <form onSubmit={handleSubmit} className="space-y-4">
+                    <div className="bg-white rounded shadow p-6">
                         {/* Address */}
-                        <div>
+                        <div className='mb-3'>
                             <label htmlFor="address" className="block text-gray-700">Address:</label>
                             <input
                                 id="address"
@@ -73,7 +73,7 @@ const HousingForm: React.FC = () => {
                         </div>
 
                         {/* Number of people */}
-                        <div>
+                        <div className='mb-3'>
                             <label htmlFor="numberOfPeople" className="block text-gray-700">Number of people:</label>
                             <input
                                 id="numberOfPeople"
@@ -85,7 +85,7 @@ const HousingForm: React.FC = () => {
                         </div>
 
                         {/* Monthly price */}
-                        <div>
+                        <div className='mb-3'>
                             <label htmlFor="monthlyPrice" className="block text-gray-700">Monthly price (€):</label>
                             <input
                                 id="monthlyPrice"
@@ -97,7 +97,7 @@ const HousingForm: React.FC = () => {
                         </div>
 
                         {/* Charges */}
-                        <div>
+                        <div className='mb-3'>
                             <label htmlFor="charges" className="block text-gray-700">Charges (€):</label>
                             <input
                                 id="charges"
@@ -109,7 +109,7 @@ const HousingForm: React.FC = () => {
                         </div>
 
                         {/* Number of keys */}
-                        <div>
+                        <div className='mb-3'>
                             <label htmlFor="numberOfKeys" className="block text-gray-700">Number of keys:</label>
                             <input
                                 id="numberOfKeys"
@@ -121,7 +121,7 @@ const HousingForm: React.FC = () => {
                         </div>
 
                         {/* Date */}
-                        <div>
+                        <div className='mb-3'>
                             <label htmlFor="date" className="block text-gray-700">Date (DD/MM):</label>
                             <input
                                 id="date"
@@ -133,7 +133,7 @@ const HousingForm: React.FC = () => {
                         </div>
 
                         {/* Start date */}
-                        <div>
+                        <div className='mb-3'>
                             <label htmlFor="startDate" className="block text-gray-700">Start date:</label>
                             <input
                                 id="startDate"
@@ -145,7 +145,7 @@ const HousingForm: React.FC = () => {
                         </div>
 
                         {/* End date */}
-                        <div>
+                        <div className='mb-3'>
                             <label htmlFor="endDate" className="block text-gray-700">End date:</label>
                             <input
                                 id="endDate"
@@ -159,9 +159,9 @@ const HousingForm: React.FC = () => {
                         {/* People */}
                         {people.map((person, index) => (
                             <div key={index} className="space-y-2">
-                                <h2 className="text-lg font-semibold">Person {index + 1}</h2>
+                                <h2 className="text-lg font-semibold mb-2">Person {index + 1}</h2>
                                 {/* Firstname */}
-                                <div>
+                                <div className='mb-3'>
                                     <label htmlFor={`firstname-${index}`} className="block text-gray-700">Firstname:</label>
                                     <input
                                         // id={firstname - ${index}}
@@ -172,7 +172,7 @@ const HousingForm: React.FC = () => {
                                     />
                                 </div>
                                 {/* Lastname */}
-                                <div>
+                                <div className='mb-3'>
                                     <label htmlFor={`lastname-${index}`} className="block text-gray-700">Lastname:</label>
                                     <input
                                         id={`lastname-${index}`}
@@ -184,7 +184,7 @@ const HousingForm: React.FC = () => {
                                 </div>
 
                                 {/* Gender */}
-                                <div>
+                                <div className='mb-3'>
                                     <label htmlFor={`gender-${index}`} className="block text-gray-700">Gender:</label>
                                     <select
                                         id={`gender-${index}`}
@@ -199,7 +199,7 @@ const HousingForm: React.FC = () => {
                                 </div>
 
                                 {/* Birthdate */}
-                                <div>
+                                <div className='mb-3'>
                                     <label htmlFor={`birthdate-${index}`} className="block text-gray-700">Birthdate:</label>
                                     <input
                                         id={`birthdate-${index}`}
@@ -211,10 +211,16 @@ const HousingForm: React.FC = () => {
                                 </div>
                             </div>
                         ))}
-                        <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600">
-                            Submit
-                        </button>
-                    </form>
+                        <div className="mt-6 flex justify-end">
+                            <button
+                                // disabled={isLoading}
+                                // onClick={onSubmit}
+                                className={`bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600 disabled:opacity-50`}
+                            >
+                                Soumettre
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </main>
         </>
