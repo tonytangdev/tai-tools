@@ -33,6 +33,13 @@ export default function Home() {
               image={"/images/tai-time-icon.png"}
               alt={"clock logo"}
             />
+            <AppItem
+              title={"Tai Home"}
+              description={"Contrat de location"}
+              href={"/tai-home"}
+              image={"/images/tai-home-icon.png"}
+              alt={"house logo"}
+            />
           </div>
         </div>
       </main>

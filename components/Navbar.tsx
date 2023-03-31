@@ -22,7 +22,7 @@ const Navbar: React.FC = () => {
                     </button>
                     <ul
                         className={`${isOpen ? "translate-y-0" : "-translate-y-full"
-                            } fixed inset-0 z-10 flex flex-col justify-center items-center space-y-4 md:space-y-0 md:space-x-4 md:flex-row w-full h-full md:static md:w-auto md:bg-transparent md:p-0 bg-blue-500 transition-transform duration-300 ease-in-out transform`}
+                            } md:translate-y-0 fixed inset-0 z-10 flex flex-col justify-center items-center space-y-4 md:space-y-0 md:space-x-4 md:flex-row w-full h-full md:static md:w-auto md:bg-transparent md:p-0 bg-blue-500 transition-transform duration-300 ease-in-out transform`}
 
                     >
                         <li className="text-center">
@@ -35,7 +35,7 @@ const Navbar: React.FC = () => {
                                         height={52}
                                     />
                                     <span className="text-white font-bold text-2xl cursor-pointer">
-                                        Home
+                                        Tai Tools
                                     </span>
                                 </div>
                             </Link>
@@ -45,7 +45,7 @@ const Navbar: React.FC = () => {
                                 <div className="flex items-center justify-center">
                                     <Image
                                         src={"/images/tai-time-icon.png"}
-                                        alt={"tools logo"}
+                                        alt={"clock logo"}
                                         width={52}
                                         height={52}
                                     />
@@ -55,8 +55,23 @@ const Navbar: React.FC = () => {
                                 </div>
                             </Link>
                         </li>
+                        <li className="text-center">
+                            <Link href="/tai-home">
+                                <div className="flex items-center justify-center">
+                                    <Image
+                                        src={"/images/tai-home-icon.png"}
+                                        alt={"house logo"}
+                                        width={52}
+                                        height={52}
+                                    />
+                                    <span className="text-white font-bold text-2xl cursor-pointer">
+                                        Tai Home
+                                    </span>
+                                </div>
+                            </Link>
+                        </li>
                         <button
-                            className="text-white text-3xl absolute top-4 right-4 md:hidden"
+                            className="text-white text-5xl absolute top-4 right-4 md:hidden"
                             onClick={toggleMenu}
                         >
                             &times;
