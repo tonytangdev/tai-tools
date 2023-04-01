@@ -182,7 +182,7 @@ async function createPdf(images: { Body: Buffer, width: number, height: number, 
 
 export const config = {
     api: {
-        responseLimit: "8mb",
+        responseLimit: false,
     }
 }
 
