@@ -82,6 +82,7 @@ const HousingForm: React.FC = () => {
                             }
                                 className="w-full mt-1 p-2 border rounded"
                                 value={address} >
+                                <option value="">Choisissez une adresse</option>
                                 {Object.entries(HOUSES).map(([id, house]) => (
                                     <option key={id} value={id}>{house}</option>
                                 ))}
