@@ -80,7 +80,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             res.setHeader('Content-Length', (pdfBuffer as Buffer).length);
 
             // Send the PDF data as the response
-            res.send(pdfBuffer);
+            res.status(200).send(pdfBuffer);
         } catch (error) {
             // Handle any errors
             console.error('Error reading PDF file:', error);
