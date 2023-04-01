@@ -1,5 +1,8 @@
 import { Reducer } from "react";
 
+// ----------------------------------------------
+// Tai Time
+
 export type DayType = {
     project: string;
     hours: number;
@@ -10,13 +13,13 @@ export type DaysType = {
     [key: string]: DayType
 }
 
-export type StateType = {
+export type TaiTimeStateType = {
     start: string;
     end: string;
     days: DaysType
 };
 
-export const ACTIONS = {
+export const TAI_TIME_ACTIONS = {
     SET_START_DATE: "SET_START_DATE",
     SET_END_DATE: "SET_END_DATE",
     SET_PROJECT: "SET_PROJECT",
@@ -24,9 +27,9 @@ export const ACTIONS = {
     SET_MINUTES: "SET_MINUTES",
 } as const
 
-export type ActionType<K extends keyof PayloadTypes> = {
+export type TaiTimeActionType<K extends keyof TaiTimePayloadTypes> = {
     type: K;
-    payload: PayloadTypes[K];
+    payload: TaiTimePayloadTypes[K];
 };
 
 export type SetDatePayloadType = string;
@@ -46,15 +49,15 @@ export type SetMinutesPayloadType = {
     minutes: string;
 }
 
-export type PayloadTypes = {
-    [ACTIONS.SET_START_DATE]: SetDatePayloadType;
-    [ACTIONS.SET_END_DATE]: SetDatePayloadType;
-    [ACTIONS.SET_PROJECT]: SetProjectPayloadType;
-    [ACTIONS.SET_HOURS]: SetHoursPayloadType;
-    [ACTIONS.SET_MINUTES]: SetMinutesPayloadType;
+export type TaiTimePayloadTypes = {
+    [TAI_TIME_ACTIONS.SET_START_DATE]: SetDatePayloadType;
+    [TAI_TIME_ACTIONS.SET_END_DATE]: SetDatePayloadType;
+    [TAI_TIME_ACTIONS.SET_PROJECT]: SetProjectPayloadType;
+    [TAI_TIME_ACTIONS.SET_HOURS]: SetHoursPayloadType;
+    [TAI_TIME_ACTIONS.SET_MINUTES]: SetMinutesPayloadType;
 }
 
-export type FormReducer = Reducer<StateType, ActionType<keyof PayloadTypes>>
+export type TaiTimeFormReducer = Reducer<TaiTimeStateType, TaiTimeActionType<keyof TaiTimePayloadTypes>>
 
 export type WeekType = {
     [key: string]: {
@@ -64,3 +67,43 @@ export type WeekType = {
         duration: string
     }
 }
+// ----------------------------------------------
+
+// ----------------------------------------------
+// Tai Home
+
+export const TAI_HOME_ACTIONS = {
+    SET_NUMBER_OF_PEOPLE: "SET_NUMBER_OF_PEOPLE",
+    SET_FIRSTNAME: "SET_FIRSTNAME",
+    SET_LASTNAME: "SET_LASTNAME",
+    SET_GENDER: "SET_GENDER",
+    SET_BIRTHDATE: "SET_BIRTHDATE",
+} as const;
+
+export type TaiHomePayloadTypes = {
+    [TAI_HOME_ACTIONS.SET_NUMBER_OF_PEOPLE]: number,
+    [TAI_HOME_ACTIONS.SET_FIRSTNAME]: { index: number, firstname: string },
+    [TAI_HOME_ACTIONS.SET_LASTNAME]: { index: number, lastname: string },
+    [TAI_HOME_ACTIONS.SET_GENDER]: { index: number, gender: string },
+    [TAI_HOME_ACTIONS.SET_BIRTHDATE]: { index: number, birthdate: Date },
+}
+
+export type TaiHomeActionType<K extends keyof TaiHomePayloadTypes> = {
+    type: K;
+    payload: TaiHomePayloadTypes[K];
+};
+
+export type TaiHomePeople = {
+    firstname: string;
+    lastname: string;
+    gender: string;
+    birthdate: Date;
+}
+
+export type TaiHomeStateType = {
+    people: TaiHomePeople[]
+};
+
+export type TaiHomeFormReducer = Reducer<TaiHomeStateType, TaiHomeActionType<keyof TaiHomePayloadTypes>>
+
+// ----------------------------------------------

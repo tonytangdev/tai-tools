@@ -1,7 +1,10 @@
 // pages/HousingForm.tsx
-import React, { useState } from 'react';
+import React, { useReducer, useState } from 'react';
 import Head from 'next/head';
 import Navbar from '@/components/Navbar';
+import { defaultState, taiHomeFormReducer } from '@/helpers/taiHomeUtils';
+import { TAI_HOME_ACTIONS, TaiHomePayloadTypes } from '@/types';
+import dayjs from 'dayjs';
 
 interface Person {
     firstName: string;
@@ -12,35 +15,14 @@ interface Person {
 
 const HousingForm: React.FC = () => {
     const [address, setAddress] = useState<string>('');
-    const [numberOfPeople, setNumberOfPeople] = useState<number>(1);
     const [monthlyPrice, setMonthlyPrice] = useState<number>(0);
     const [charges, setCharges] = useState<number>(0);
     const [numberOfKeys, setNumberOfKeys] = useState<number>(0);
     const [date, setDate] = useState<string>('');
     const [startDate, setStartDate] = useState<string>('');
     const [endDate, setEndDate] = useState<string>('');
-    const [people, setPeople] = useState<Person[]>([
-        {
-            firstName: '',
-            lastName: '',
-            gender: '',
-            birthdate: '',
-        },
-    ]);
 
-    const addPerson = () => {
-        setPeople([...people, { firstName: '', lastName: '', gender: '', birthdate: '' }]);
-    };
-
-    const removePerson = (index: number) => {
-        setPeople(people.filter((_, i) => i !== index));
-    };
-
-    const updatePerson = (index: number, field: keyof Person, value: string) => {
-        const newPeople = [...people];
-        newPeople[index][field] = value;
-        setPeople(newPeople);
-    };
+    const [people, dispatch] = useReducer(taiHomeFormReducer, defaultState)
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -78,8 +60,13 @@ const HousingForm: React.FC = () => {
                             <input
                                 id="numberOfPeople"
                                 type="number"
-                                value={numberOfPeople}
-                                onChange={(e) => setNumberOfPeople(+e.target.value)}
+                                value={people.people.length}
+                                onChange={(e) => dispatch(
+                                    {
+                                        type: TAI_HOME_ACTIONS.SET_NUMBER_OF_PEOPLE,
+                                        payload: +e.target.value
+                                    }
+                                )}
                                 className="w-full mt-1 p-2 border rounded"
                             />
                         </div>
@@ -157,8 +144,8 @@ const HousingForm: React.FC = () => {
                         </div>
 
                         {/* People */}
-                        {people.map((person, index) => (
-                            <div key={index} className="space-y-2">
+                        {people.people.map((person, index) => (
+                            <div key={index} className="space-y-2 mb-3">
                                 <h2 className="text-lg font-semibold mb-2">Person {index + 1}</h2>
                                 {/* Firstname */}
                                 <div className='mb-3'>
@@ -166,8 +153,17 @@ const HousingForm: React.FC = () => {
                                     <input
                                         // id={firstname - ${index}}
                                         type="text"
-                                        value={person.firstName}
-                                        onChange={(e) => updatePerson(index, 'firstName', e.target.value)}
+                                        value={person.firstname}
+                                        onChange={(e) => dispatch(
+                                            {
+                                                type: TAI_HOME_ACTIONS.SET_FIRSTNAME,
+                                                payload: {
+                                                    index,
+                                                    firstname: e.target.value
+                                                }
+                                            }
+
+                                        )}
                                         className="w-full mt-1 p-2 border rounded"
                                     />
                                 </div>
@@ -177,8 +173,16 @@ const HousingForm: React.FC = () => {
                                     <input
                                         id={`lastname-${index}`}
                                         type="text"
-                                        value={person.lastName}
-                                        onChange={(e) => updatePerson(index, 'lastName', e.target.value)}
+                                        value={person.lastname}
+                                        onChange={(e) => dispatch(
+                                            {
+                                                type: TAI_HOME_ACTIONS.SET_LASTNAME,
+                                                payload: {
+                                                    index,
+                                                    lastname: e.target.value
+                                                }
+                                            }
+                                        )}
                                         className="w-full mt-1 p-2 border rounded"
                                     />
                                 </div>
@@ -189,7 +193,15 @@ const HousingForm: React.FC = () => {
                                     <select
                                         id={`gender-${index}`}
                                         value={person.gender}
-                                        onChange={(e) => updatePerson(index, 'gender', e.target.value)}
+                                        onChange={(e) => dispatch(
+                                            {
+                                                type: TAI_HOME_ACTIONS.SET_GENDER,
+                                                payload: {
+                                                    index,
+                                                    gender: e.target.value
+                                                }
+                                            }
+                                        )}
                                         className="w-full mt-1 p-2 border rounded"
                                     >
                                         <option value="male">Male</option>
@@ -204,8 +216,16 @@ const HousingForm: React.FC = () => {
                                     <input
                                         id={`birthdate-${index}`}
                                         type="date"
-                                        value={person.birthdate}
-                                        onChange={(e) => updatePerson(index, 'birthdate', e.target.value)}
+                                        value={dayjs(person.birthdate).format('YYYY-MM-DD')}
+                                        onChange={(e) => dispatch(
+                                            {
+                                                type: TAI_HOME_ACTIONS.SET_BIRTHDATE,
+                                                payload: {
+                                                    index,
+                                                    birthdate: dayjs(e.target.value, 'YYYY-MM-DD').toDate()
+                                                }
+                                            }
+                                        )}
                                         className="w-full mt-1 p-2 border rounded"
                                     />
                                 </div>

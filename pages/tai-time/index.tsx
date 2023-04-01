@@ -2,12 +2,12 @@ import WorkPlaceCard from "@/components/WorkPlaceCard";
 import dayjs from "dayjs";
 import Head from "next/head";
 import { useReducer, useState } from "react";
-import { ACTIONS } from "../../types";
+import { TAI_TIME_ACTIONS } from "../../types";
 import {
   computeTotalHours,
   defaultState,
   formatStateToSend,
-  formReducer,
+  taiTimeFormReducer,
 } from "../../helpers/taiTimesUtils";
 import Navbar from "@/components/Navbar";
 
@@ -17,7 +17,7 @@ const LAMBDA_URL =
 export default function TaiTime() {
   const [isLoading, setIsLoading] = useState(false);
 
-  const [state, dispatch] = useReducer(formReducer, defaultState());
+  const [state, dispatch] = useReducer(taiTimeFormReducer, defaultState());
   const { hours, minutes } = computeTotalHours(state.days);
 
   const onSubmit = async () => {
@@ -70,7 +70,7 @@ export default function TaiTime() {
                   value={state.start}
                   onChange={(e) =>
                     dispatch({
-                      type: ACTIONS.SET_START_DATE,
+                      type: TAI_TIME_ACTIONS.SET_START_DATE,
                       payload: e.target.value,
                     })
                   }
@@ -84,7 +84,7 @@ export default function TaiTime() {
                   value={state.end}
                   onChange={(e) =>
                     dispatch({
-                      type: ACTIONS.SET_END_DATE,
+                      type: TAI_TIME_ACTIONS.SET_END_DATE,
                       payload: e.target.value,
                     })
                   }
@@ -102,19 +102,19 @@ export default function TaiTime() {
                   place={val.project}
                   onPlaceChange={(e) =>
                     dispatch({
-                      type: ACTIONS.SET_PROJECT,
+                      type: TAI_TIME_ACTIONS.SET_PROJECT,
                       payload: { day, project: e.target.value },
                     })
                   }
                   onHoursChange={(e) =>
                     dispatch({
-                      type: ACTIONS.SET_HOURS,
+                      type: TAI_TIME_ACTIONS.SET_HOURS,
                       payload: { day, hours: e.target.value },
                     })
                   }
                   onMinutesChange={(e) =>
                     dispatch({
-                      type: ACTIONS.SET_MINUTES,
+                      type: TAI_TIME_ACTIONS.SET_MINUTES,
                       payload: { day, minutes: e.target.value },
                     })
                   }

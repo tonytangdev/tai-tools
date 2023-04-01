@@ -28,7 +28,7 @@ export default function Home() {
           <div className="grid grid-cols-1 gap-4">
             <AppItem
               title={"Tai Time"}
-              description={"Suivi du temps de travail dans la semaine"}
+              description={"Suivi du temps de travail"}
               href={"/tai-time"}
               image={"/images/tai-time-icon.png"}
               alt={"clock logo"}

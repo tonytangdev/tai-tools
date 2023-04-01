@@ -1,18 +1,18 @@
 import { formatMinutes, getFirstValidWeekdayOfPreviousMonth, getValidEndWeekdayOfCurrentWeek } from "@/helpers/dates/dateUtils";
 import dayjs from "dayjs";
-import { ACTIONS, DaysType, FormReducer, SetHoursPayloadType, SetMinutesPayloadType, SetProjectPayloadType, StateType, WeekType } from "../types";
+import { TAI_TIME_ACTIONS, DaysType, TaiTimeFormReducer, SetHoursPayloadType, SetMinutesPayloadType, SetProjectPayloadType, TaiTimeStateType, WeekType } from "../types";
 
 
 // reducer
-export const formReducer: FormReducer = (state, action) => {
+export const taiTimeFormReducer: TaiTimeFormReducer = (state, action) => {
     switch (action.type) {
-        case ACTIONS.SET_START_DATE:
+        case TAI_TIME_ACTIONS.SET_START_DATE:
             const startDate = action.payload as string;
             return computePeriod(startDate);
-        case ACTIONS.SET_END_DATE:
+        case TAI_TIME_ACTIONS.SET_END_DATE:
             const endDate = action.payload as string;
             return computePeriod(state.start, endDate);
-        case ACTIONS.SET_PROJECT:
+        case TAI_TIME_ACTIONS.SET_PROJECT:
             const projectDetails = action.payload as SetProjectPayloadType;
             return {
                 ...state,
@@ -24,7 +24,7 @@ export const formReducer: FormReducer = (state, action) => {
                     }
                 }
             };
-        case ACTIONS.SET_HOURS:
+        case TAI_TIME_ACTIONS.SET_HOURS:
             const hoursDetails = action.payload as SetHoursPayloadType;
             const hours = parseInt(hoursDetails.hours);
             return {
@@ -37,7 +37,7 @@ export const formReducer: FormReducer = (state, action) => {
                     }
                 }
             };
-        case ACTIONS.SET_MINUTES:
+        case TAI_TIME_ACTIONS.SET_MINUTES:
             const minutesDetails = action.payload as SetMinutesPayloadType;
             const minutes = parseInt(minutesDetails.minutes);
             return {
@@ -56,7 +56,7 @@ export const formReducer: FormReducer = (state, action) => {
 }
 
 // default state
-export const defaultState = (): StateType => {
+export const defaultState = (): TaiTimeStateType => {
     const start = getFirstValidWeekdayOfPreviousMonth(dayjs())
     return computePeriod(start);
 };
@@ -156,7 +156,7 @@ export function computeTotalHours(days: DaysType) {
     };
 }
 
-export function formatStateToSend(state: StateType) {
+export function formatStateToSend(state: TaiTimeStateType) {
     const startingDate = dayjs(state.start).format("DD/MM");
     const endingDate = dayjs(state.end).format("DD/MM/YYYY");
     const totalDuration = computeTotalHours(state.days);
