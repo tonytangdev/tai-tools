@@ -1,4 +1,5 @@
 import { Reducer } from "react";
+import { HOUSES } from "./helpers/taiHomeUtils";
 
 // ----------------------------------------------
 // Tai Time
@@ -108,5 +109,7 @@ export type TaiHomeStateType = {
 };
 
 export type TaiHomeFormReducer = Reducer<TaiHomeStateType, TaiHomeActionType<keyof TaiHomePayloadTypes>>
+
+export type Address<T extends keyof typeof HOUSES> = typeof HOUSES[T];
 
 // ----------------------------------------------

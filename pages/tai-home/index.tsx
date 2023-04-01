@@ -1,9 +1,8 @@
-// pages/HousingForm.tsx
 import React, { useReducer, useState } from 'react';
 import Head from 'next/head';
 import Navbar from '@/components/Navbar';
-import { defaultState, HOUSES, taiHomeFormReducer } from '@/helpers/taiHomeUtils';
-import { TAI_HOME_ACTIONS } from '@/types';
+import { defaultState, formatTaiHomeData, HOUSES, taiHomeFormReducer } from '@/helpers/taiHomeUtils';
+import { Address, TAI_HOME_ACTIONS } from '@/types';
 import dayjs from 'dayjs';
 
 interface Person {
@@ -14,7 +13,7 @@ interface Person {
 }
 
 const HousingForm: React.FC = () => {
-    const [address, setAddress] = useState<string>();
+    const [address, setAddress] = useState<Address<keyof typeof HOUSES> | "">("");
     const [monthlyPrice, setMonthlyPrice] = useState<number>(0);
     const [charges, setCharges] = useState<number>(0);
     const [numberOfKeys, setNumberOfKeys] = useState<number>(2);
@@ -26,7 +25,23 @@ const HousingForm: React.FC = () => {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        // Add your form submit logic here
+        if (!address) {
+            alert('Veuillez renseigner une adresse');
+            return;
+        }
+
+        const data = formatTaiHomeData(
+            address as Address<keyof typeof HOUSES>,
+            monthlyPrice,
+            charges,
+            numberOfKeys,
+            date,
+            dayjs(startDate, 'YYYY-MM-DD').toDate(),
+            dayjs(endDate, 'YYYY-MM-DD').toDate(),
+            people.people
+        );
+
+        console.log(data);
     };
 
     return (
@@ -257,7 +272,7 @@ const HousingForm: React.FC = () => {
                         <div className="mt-6 flex justify-end">
                             <button
                                 // disabled={isLoading}
-                                // onClick={onSubmit}
+                                onClick={handleSubmit}
                                 className={`bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600 disabled:opacity-50`}
                             >
                                 Soumettre
