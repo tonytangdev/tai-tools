@@ -1,9 +1,20 @@
 import fs from 'fs';
 import path from 'path';
+import AWS from 'aws-sdk';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import { default as PDFDocument } from "pdfkit";
 const writtenNumber = require('written-number')
+
+// Configure the AWS SDK
+AWS.config.update({
+    region: 'eu-west-3', // Replace with your AWS region, e.g., 'us-west-2'
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+})
+
+// Initialize the S3 client
+const s3 = new AWS.S3()
 
 writtenNumber.defaults.lang = 'fr'
 
@@ -11,6 +22,9 @@ const PAGE_1 = 'PAGE_1'
 const PAGE_2 = 'PAGE_2'
 const PAGE_3 = 'PAGE_3'
 const PAGE_4 = 'PAGE_4'
+
+const CONTRACT_BUCKET = 'tony-contract'
+const RESULT_KEY = 'result/contrat.pdf'
 
 const HOUSES = {
     EP: 'EugenePottier',
@@ -74,16 +88,18 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                     return createPdf(values, req.body)
                 }).catch(err => console.error(err))
 
-            // Set the response headers
-            res.setHeader('Content-Type', 'application/pdf');
-            res.setHeader('Content-Disposition', 'inline; filename=yourfile.pdf');
-            res.setHeader('Content-Length', (pdfBuffer as Buffer).length);
+            const result = await uploadToS3(CONTRACT_BUCKET, RESULT_KEY, pdfBuffer as Buffer)
+
+            let responseCode = 500
+            if (result.data) {
+                responseCode = 200
+            }
 
             // Send the PDF data as the response
-            res.status(200).send(pdfBuffer);
+            res.status(responseCode).send({ url: result.url });
         } catch (error) {
             // Handle any errors
-            console.error('Error reading PDF file:', error);
+            console.error('Error :', error);
             res.status(500).send('Internal Server Error');
         }
     } else {
@@ -180,10 +196,21 @@ async function createPdf(images: { Body: Buffer, width: number, height: number, 
     })
 }
 
-export const config = {
-    api: {
-        responseLimit: false,
+async function uploadToS3(bucket: string, key: string, object: Buffer) {
+    const params = {
+        Body: object,
+        Bucket: bucket,
+        Key: key
     }
+
+    const data = await s3.putObject(params).promise()
+    const url = s3.getSignedUrl('getObject', {
+        Bucket: bucket,
+        Key: key,
+        Expires: 60 // seconds
+    })
+
+    return { data, url }
 }
 
 export default handler;

@@ -53,11 +53,11 @@ const HousingForm: React.FC = () => {
             body: JSON.stringify(formattedData),
         });
 
-        // Download the pdf from res.body
-        const blob = await res.blob();
+        const json = await res.json();
+        const url = json.url;
 
         // open the pdf in a new tab
-        window.open(URL.createObjectURL(blob), "_blank");
+        window.open(url, "_blank");
         setIsLoading(false);
     };
 
