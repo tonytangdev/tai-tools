@@ -2,8 +2,8 @@
 import React, { useReducer, useState } from 'react';
 import Head from 'next/head';
 import Navbar from '@/components/Navbar';
-import { defaultState, taiHomeFormReducer } from '@/helpers/taiHomeUtils';
-import { TAI_HOME_ACTIONS, TaiHomePayloadTypes } from '@/types';
+import { defaultState, HOUSES, taiHomeFormReducer } from '@/helpers/taiHomeUtils';
+import { TAI_HOME_ACTIONS } from '@/types';
 import dayjs from 'dayjs';
 
 interface Person {
@@ -14,10 +14,10 @@ interface Person {
 }
 
 const HousingForm: React.FC = () => {
-    const [address, setAddress] = useState<string>('');
+    const [address, setAddress] = useState<string>();
     const [monthlyPrice, setMonthlyPrice] = useState<number>(0);
     const [charges, setCharges] = useState<number>(0);
-    const [numberOfKeys, setNumberOfKeys] = useState<number>(0);
+    const [numberOfKeys, setNumberOfKeys] = useState<number>(2);
     const [date, setDate] = useState<string>('');
     const [startDate, setStartDate] = useState<string>('');
     const [endDate, setEndDate] = useState<string>('');
@@ -44,19 +44,23 @@ const HousingForm: React.FC = () => {
                     <div className="bg-white rounded shadow p-6">
                         {/* Address */}
                         <div className='mb-3'>
-                            <label htmlFor="address" className="block text-gray-700">Address:</label>
-                            <input
-                                id="address"
-                                type="text"
-                                value={address}
-                                onChange={(e) => setAddress(e.target.value)}
+                            <label htmlFor="address" className="block text-gray-700">Adresse:</label>
+                            <input list="options" id="address" name="input-select" onChange={
+                                (e) => setAddress(e.target.value)
+                            }
                                 className="w-full mt-1 p-2 border rounded"
-                            />
+                                value={address} />
+                            <datalist id="options">
+                                {Object.entries(HOUSES).map(([id, house]) => (
+                                    <option key={id} value={house} />
+                                ))}
+                            </datalist>
+
                         </div>
 
                         {/* Number of people */}
                         <div className='mb-3'>
-                            <label htmlFor="numberOfPeople" className="block text-gray-700">Number of people:</label>
+                            <label htmlFor="numberOfPeople" className="block text-gray-700">Nombre de personnes:</label>
                             <input
                                 id="numberOfPeople"
                                 type="number"
@@ -73,7 +77,7 @@ const HousingForm: React.FC = () => {
 
                         {/* Monthly price */}
                         <div className='mb-3'>
-                            <label htmlFor="monthlyPrice" className="block text-gray-700">Monthly price (€):</label>
+                            <label htmlFor="monthlyPrice" className="block text-gray-700">Loyer mensuel (€):</label>
                             <input
                                 id="monthlyPrice"
                                 type="number"
@@ -97,7 +101,7 @@ const HousingForm: React.FC = () => {
 
                         {/* Number of keys */}
                         <div className='mb-3'>
-                            <label htmlFor="numberOfKeys" className="block text-gray-700">Number of keys:</label>
+                            <label htmlFor="numberOfKeys" className="block text-gray-700">Nombre de clés:</label>
                             <input
                                 id="numberOfKeys"
                                 type="number"
@@ -109,7 +113,7 @@ const HousingForm: React.FC = () => {
 
                         {/* Date */}
                         <div className='mb-3'>
-                            <label htmlFor="date" className="block text-gray-700">Date (DD/MM):</label>
+                            <label htmlFor="date" className="block text-gray-700">Le loyer sera révisé chaque année le (DD/MM):</label>
                             <input
                                 id="date"
                                 type="text"
@@ -121,7 +125,7 @@ const HousingForm: React.FC = () => {
 
                         {/* Start date */}
                         <div className='mb-3'>
-                            <label htmlFor="startDate" className="block text-gray-700">Start date:</label>
+                            <label htmlFor="startDate" className="block text-gray-700">Le contrat prendra effet le:</label>
                             <input
                                 id="startDate"
                                 type="date"
@@ -133,7 +137,7 @@ const HousingForm: React.FC = () => {
 
                         {/* End date */}
                         <div className='mb-3'>
-                            <label htmlFor="endDate" className="block text-gray-700">End date:</label>
+                            <label htmlFor="endDate" className="block text-gray-700">Pour se finir le:</label>
                             <input
                                 id="endDate"
                                 type="date"
@@ -146,10 +150,10 @@ const HousingForm: React.FC = () => {
                         {/* People */}
                         {people.people.map((person, index) => (
                             <div key={index} className="space-y-2 mb-3">
-                                <h2 className="text-lg font-semibold mb-2">Person {index + 1}</h2>
+                                <h2 className="text-lg font-semibold mb-2">Personne {index + 1}</h2>
                                 {/* Firstname */}
                                 <div className='mb-3'>
-                                    <label htmlFor={`firstname-${index}`} className="block text-gray-700">Firstname:</label>
+                                    <label htmlFor={`firstname-${index}`} className="block text-gray-700">Prénom:</label>
                                     <input
                                         // id={firstname - ${index}}
                                         type="text"
@@ -169,7 +173,7 @@ const HousingForm: React.FC = () => {
                                 </div>
                                 {/* Lastname */}
                                 <div className='mb-3'>
-                                    <label htmlFor={`lastname-${index}`} className="block text-gray-700">Lastname:</label>
+                                    <label htmlFor={`lastname-${index}`} className="block text-gray-700">Nom:</label>
                                     <input
                                         id={`lastname-${index}`}
                                         type="text"
@@ -189,7 +193,7 @@ const HousingForm: React.FC = () => {
 
                                 {/* Gender */}
                                 <div className='mb-3'>
-                                    <label htmlFor={`gender-${index}`} className="block text-gray-700">Gender:</label>
+                                    <label htmlFor={`gender-${index}`} className="block text-gray-700">Genre:</label>
                                     <select
                                         id={`gender-${index}`}
                                         value={person.gender}
@@ -204,15 +208,14 @@ const HousingForm: React.FC = () => {
                                         )}
                                         className="w-full mt-1 p-2 border rounded"
                                     >
-                                        <option value="male">Male</option>
-                                        <option value="female">Female</option>
-                                        <option value="other">Other</option>
+                                        <option value="male">Homme</option>
+                                        <option value="female">Femme</option>
                                     </select>
                                 </div>
 
                                 {/* Birthdate */}
                                 <div className='mb-3'>
-                                    <label htmlFor={`birthdate-${index}`} className="block text-gray-700">Birthdate:</label>
+                                    <label htmlFor={`birthdate-${index}`} className="block text-gray-700">Date de naissance:</label>
                                     <input
                                         id={`birthdate-${index}`}
                                         type="date"
@@ -223,6 +226,26 @@ const HousingForm: React.FC = () => {
                                                 payload: {
                                                     index,
                                                     birthdate: dayjs(e.target.value, 'YYYY-MM-DD').toDate()
+                                                }
+                                            }
+                                        )}
+                                        className="w-full mt-1 p-2 border rounded"
+                                    />
+                                </div>
+
+                                {/* Birthplace */}
+                                <div className='mb-3'>
+                                    <label htmlFor={`birthplace-${index}`} className="block text-gray-700">Lieu de naissance:</label>
+                                    <input
+                                        id={`birthplace-${index}`}
+                                        type="text"
+                                        value={person.birthplace}
+                                        onChange={(e) => dispatch(
+                                            {
+                                                type: TAI_HOME_ACTIONS.SET_BIRTHPLACE,
+                                                payload: {
+                                                    index,
+                                                    birthplace: e.target.value
                                                 }
                                             }
                                         )}

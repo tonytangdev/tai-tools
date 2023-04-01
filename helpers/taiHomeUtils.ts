@@ -41,6 +41,7 @@ const updatePeople = (state: TaiHomeStateType, numberOfPeople: number) => {
                 lastname: "",
                 gender: "",
                 birthdate: new Date(),
+                birthplace: "",
             });
         }
     } else {
@@ -63,6 +64,12 @@ export const defaultState = {
             lastname: "",
             gender: "male",
             birthdate: new Date(),
+            birthplace: "",
         }
     ]
+}
+
+export const HOUSES = {
+    EP: "12 rue Eugène Pottier",
+    JJ: "1 rue Jean Jacaques Rousseau",
 }

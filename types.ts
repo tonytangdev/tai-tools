@@ -78,6 +78,7 @@ export const TAI_HOME_ACTIONS = {
     SET_LASTNAME: "SET_LASTNAME",
     SET_GENDER: "SET_GENDER",
     SET_BIRTHDATE: "SET_BIRTHDATE",
+    SET_BIRTHPLACE: "SET_BIRTHPLACE",
 } as const;
 
 export type TaiHomePayloadTypes = {
@@ -86,6 +87,7 @@ export type TaiHomePayloadTypes = {
     [TAI_HOME_ACTIONS.SET_LASTNAME]: { index: number, lastname: string },
     [TAI_HOME_ACTIONS.SET_GENDER]: { index: number, gender: string },
     [TAI_HOME_ACTIONS.SET_BIRTHDATE]: { index: number, birthdate: Date },
+    [TAI_HOME_ACTIONS.SET_BIRTHPLACE]: { index: number, birthplace: string },
 }
 
 export type TaiHomeActionType<K extends keyof TaiHomePayloadTypes> = {
@@ -98,6 +100,7 @@ export type TaiHomePeople = {
     lastname: string;
     gender: string;
     birthdate: Date;
+    birthplace: string;
 }
 
 export type TaiHomeStateType = {
