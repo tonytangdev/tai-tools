@@ -33,7 +33,7 @@ const updateInfo = <K extends keyof TaiHomePeople>(state: TaiHomeStateType, inde
 
 const updatePeople = (state: TaiHomeStateType, numberOfPeople: number) => {
     const currentLength = state.people.length;
-    const toAdd = currentLength - numberOfPeople;
+    const toAdd = numberOfPeople - currentLength;
 
     let newPeople = [...state.people];
     if (toAdd > 0) {
@@ -49,7 +49,7 @@ const updatePeople = (state: TaiHomeStateType, numberOfPeople: number) => {
         }
     } else {
         // remove people
-        for (let i = 0; i < toAdd; i++) {
+        for (let i = 0; i > toAdd; i--) {
             newPeople.pop();
         }
     }

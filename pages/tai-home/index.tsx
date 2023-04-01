@@ -13,6 +13,9 @@ interface Person {
 }
 
 const HousingForm: React.FC = () => {
+    const [isLoading, setIsLoading] = useState(false);
+
+
     const [address, setAddress] = useState<Address<keyof typeof HOUSES> | "">("");
     const [monthlyPrice, setMonthlyPrice] = useState<number>(0);
     const [charges, setCharges] = useState<number>(0);
@@ -23,14 +26,14 @@ const HousingForm: React.FC = () => {
 
     const [people, dispatch] = useReducer(taiHomeFormReducer, defaultState)
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    const handleSubmit = async () => {
+        setIsLoading(true);
         if (!address) {
             alert('Veuillez renseigner une adresse');
             return;
         }
 
-        const data = formatTaiHomeData(
+        const formattedData = formatTaiHomeData(
             address as Address<keyof typeof HOUSES>,
             monthlyPrice,
             charges,
@@ -41,7 +44,21 @@ const HousingForm: React.FC = () => {
             people.people
         );
 
-        console.log(data);
+        const res = await fetch("/api/housing-contracts", {
+            method: "POST",
+            headers: {
+                Accept: "application/pdf",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formattedData),
+        });
+
+        // Download the pdf from res.body
+        const blob = await res.blob();
+        
+        // open the pdf in a new tab
+        window.open(URL.createObjectURL(blob), "_blank");
+        setIsLoading(false);
     };
 
     return (
@@ -271,11 +288,11 @@ const HousingForm: React.FC = () => {
                         ))}
                         <div className="mt-6 flex justify-end">
                             <button
-                                // disabled={isLoading}
+                                disabled={isLoading}
                                 onClick={handleSubmit}
                                 className={`bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600 disabled:opacity-50`}
                             >
-                                Soumettre
+                                {isLoading ? <>Chargement...</> : <>Soumettre</>}
                             </button>
                         </div>
                     </div>
