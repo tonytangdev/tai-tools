@@ -16,7 +16,7 @@ const HousingForm: React.FC = () => {
     const [isLoading, setIsLoading] = useState(false);
 
 
-    const [address, setAddress] = useState<Address<keyof typeof HOUSES> | "">("");
+    const [address, setAddress] = useState<keyof typeof HOUSES | "">("");
     const [monthlyPrice, setMonthlyPrice] = useState<number>(0);
     const [charges, setCharges] = useState<number>(0);
     const [numberOfKeys, setNumberOfKeys] = useState<number>(2);
@@ -34,7 +34,7 @@ const HousingForm: React.FC = () => {
         }
 
         const formattedData = formatTaiHomeData(
-            address as Address<keyof typeof HOUSES>,
+            address,
             monthlyPrice,
             charges,
             numberOfKeys,
@@ -55,7 +55,7 @@ const HousingForm: React.FC = () => {
 
         // Download the pdf from res.body
         const blob = await res.blob();
-        
+
         // open the pdf in a new tab
         window.open(URL.createObjectURL(blob), "_blank");
         setIsLoading(false);
@@ -77,16 +77,15 @@ const HousingForm: React.FC = () => {
                         {/* Address */}
                         <div className='mb-3'>
                             <label htmlFor="address" className="block text-gray-700">Adresse:</label>
-                            <input list="options" id="address" name="input-select" onChange={
-                                (e) => setAddress(e.target.value)
+                            <select id="address" name="input-select" onChange={
+                                (e) => setAddress(e.target.value as keyof typeof HOUSES)
                             }
                                 className="w-full mt-1 p-2 border rounded"
-                                value={address} />
-                            <datalist id="options">
+                                value={address} >
                                 {Object.entries(HOUSES).map(([id, house]) => (
-                                    <option key={id} value={house} />
+                                    <option key={id} value={id}>{house}</option>
                                 ))}
-                            </datalist>
+                            </select>
 
                         </div>
 

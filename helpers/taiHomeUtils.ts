@@ -77,7 +77,7 @@ export const HOUSES = {
     JJ: "1 rue Jean Jacaques Rousseau",
 } as const;
 
-export const formatTaiHomeData = (address: Address<keyof typeof HOUSES>, monthlyPrice: number, charges: number, numberOfKeys: number, date: string, startDate: Date, endDate: Date, people: TaiHomePeople[]) => {
+export const formatTaiHomeData = (address: keyof typeof HOUSES, monthlyPrice: number, charges: number, numberOfKeys: number, date: string, startDate: Date, endDate: Date, people: TaiHomePeople[]) => {
     /**
      * Formatted values looks like this:
      * {
@@ -100,7 +100,6 @@ export const formatTaiHomeData = (address: Address<keyof typeof HOUSES>, monthly
     }
      */
 
-    const house = Object.keys(HOUSES).find(key => HOUSES[key as keyof typeof HOUSES] === address);
     const beginningDate = dayjs(startDate).format("DD/MM/YYYY");
     const endingDate = dayjs(endDate).format("DD/MM/YYYY");
 
@@ -115,7 +114,7 @@ export const formatTaiHomeData = (address: Address<keyof typeof HOUSES>, monthly
     })
 
     return {
-        house,
+        house: address,
         monthlyRent: monthlyPrice,
         charges,
         keysAmount: numberOfKeys,
