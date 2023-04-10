@@ -41,7 +41,9 @@ export default function TaiTime() {
       const { url } = body;
 
       // open the pdf in a new tab
-      window.open(url, "_blank");
+      setTimeout (() => {
+        window.open(url, "_top");
+      })
     } else {
       alert("Une erreur s'est produite");
     }
