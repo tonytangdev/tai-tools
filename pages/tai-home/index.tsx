@@ -58,7 +58,7 @@ const HousingForm: React.FC = () => {
 
         // open the pdf in a new tab
         setTimeout(() => {
-          window.open(url, "_blank");
+          window.open(url, "_top");
           setIsLoading(false);
         })
     };
