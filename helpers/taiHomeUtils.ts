@@ -74,7 +74,7 @@ export const defaultState = {
 
 export const HOUSES = {
     EP: "12 rue Eugène Pottier",
-    JJ: "1 rue Jean Jacaques Rousseau",
+    JJ: "1 rue Jean Jacques Rousseau",
 } as const;
 
 export const formatTaiHomeData = (address: keyof typeof HOUSES, monthlyPrice: number, charges: number, numberOfKeys: number, date: string, startDate: Date, endDate: Date, people: TaiHomePeople[]) => {
