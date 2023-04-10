@@ -57,8 +57,10 @@ const HousingForm: React.FC = () => {
         const url = json.url;
 
         // open the pdf in a new tab
-        window.open(url, "_blank");
-        setIsLoading(false);
+        setTimeout(() => {
+          window.open(url, "_blank");
+          setIsLoading(false);
+        })
     };
 
     return (
